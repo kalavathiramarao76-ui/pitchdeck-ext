@@ -29,6 +29,6 @@ export async function callAI(messages: Message[]): Promise<string> {
 export function systemPrompt(task: string): Message {
   return {
     role: 'system',
-    content: `You are PitchDeck AI, an expert startup advisor and pitch deck consultant. ${task}`,
+    content: `You are DeckForge, an expert startup advisor and pitch deck consultant. ${task}`,
   }
 }

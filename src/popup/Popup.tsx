@@ -49,7 +49,7 @@ export default function Popup() {
             </svg>
           </div>
           <div>
-            <h1 className="text-base font-bold text-white">PitchDeck AI</h1>
+            <h1 className="text-base font-bold text-white">DeckForge</h1>
             <p className="text-[11px] text-neutral-500">Quick Elevator Pitch</p>
           </div>
         </div>

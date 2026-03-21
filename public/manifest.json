@@ -1,9 +1,13 @@
 {
   "manifest_version": 3,
-  "name": "PitchDeck AI",
+  "name": "DeckForge \u2014 AI Pitch Deck Generator & Startup Tools",
   "version": "1.0.0",
-  "description": "AI-powered pitch deck generator, elevator pitch creator, and investor tools for startups",
-  "permissions": ["sidePanel", "activeTab", "scripting"],
+  "description": "AI pitch deck generator: create investor-ready decks, elevator pitches & startup analysis. Free Chrome extension.",
+  "permissions": [
+    "sidePanel",
+    "activeTab",
+    "scripting"
+  ],
   "host_permissions": [
     "https://www.angellist.com/*",
     "https://angel.co/*",
@@ -32,12 +36,15 @@
         "https://angel.co/*",
         "https://www.crunchbase.com/*"
       ],
-      "js": ["content.js"]
+      "js": [
+        "content.js"
+      ]
     }
   ],
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
-  }
+  },
+  "short_name": "DeckForge"
 }

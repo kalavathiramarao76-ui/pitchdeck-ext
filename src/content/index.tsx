@@ -9,7 +9,7 @@ async function callAI(systemMsg: string, userMsg: string): Promise<string> {
     body: JSON.stringify({
       model: MODEL,
       messages: [
-        { role: 'system', content: `You are PitchDeck AI, an expert startup advisor. ${systemMsg}` },
+        { role: 'system', content: `You are DeckForge, an expert startup advisor. ${systemMsg}` },
         { role: 'user', content: userMsg },
       ],
       temperature: 0.7,
@@ -174,7 +174,7 @@ function showResultModal(content: string) {
     justifyContent: 'space-between',
     alignItems: 'center',
   })
-  header.innerHTML = `<span style="color:#f59e0b;font-weight:700;font-size:14px">PitchDeck AI - Generated Pitch</span>`
+  header.innerHTML = `<span style="color:#f59e0b;font-weight:700;font-size:14px">DeckForge - Generated Pitch</span>`
 
   const closeBtn = document.createElement('button')
   Object.assign(closeBtn.style, {

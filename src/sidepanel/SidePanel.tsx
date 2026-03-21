@@ -64,7 +64,7 @@ export default function SidePanel() {
           </svg>
         </div>
         <div>
-          <h1 className="text-sm font-bold text-white">PitchDeck AI</h1>
+          <h1 className="text-sm font-bold text-white">DeckForge</h1>
           <p className="text-[10px] text-neutral-500">Full Workspace</p>
         </div>
       </div>
@@ -169,7 +169,7 @@ export default function SidePanel() {
 
       {/* Footer */}
       <div className="px-4 py-2 border-t border-dark-700 flex items-center justify-between shrink-0">
-        <span className="text-[10px] text-neutral-600">PitchDeck AI v1.0</span>
+        <span className="text-[10px] text-neutral-600">DeckForge v1.0</span>
         <span className="text-[10px] text-amber-500/60">Powered by AI</span>
       </div>
     </div>
