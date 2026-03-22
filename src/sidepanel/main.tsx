@@ -1,10 +1,13 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import SidePanel from './SidePanel';
+import { AuthWall } from '../shared/AuthWall';
 import '../index.css'
-import SidePanel from './SidePanel'
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <SidePanel />
-  </StrictMode>
-)
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <AuthWall>
+      <SidePanel />
+    </AuthWall>
+  </React.StrictMode>
+);

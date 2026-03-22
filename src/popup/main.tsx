@@ -1,10 +1,13 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import Popup from './Popup';
+import { AuthWall } from '../shared/AuthWall';
 import '../index.css'
-import Popup from './Popup'
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <Popup />
-  </StrictMode>
-)
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <AuthWall>
+      <Popup />
+    </AuthWall>
+  </React.StrictMode>
+);

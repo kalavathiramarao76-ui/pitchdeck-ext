@@ -1,3 +1,4 @@
+import { incrementUsage } from '../shared/usage';
 const API_URL = 'https://sai.sharedllm.com/v1/chat/completions'
 const MODEL = 'gpt-oss:120b'
 
@@ -7,6 +8,7 @@ export interface Message {
 }
 
 export async function callAI(messages: Message[]): Promise<string> {
+  incrementUsage();
   const res = await fetch(API_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
