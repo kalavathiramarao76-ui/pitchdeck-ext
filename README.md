@@ -1,73 +1,145 @@
-# React + TypeScript + Vite
+# DeckForge — AI Pitch Deck Generator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Version](https://img.shields.io/badge/version-0.0.0-F59E0B)
+![License](https://img.shields.io/badge/license-ISC-green)
+![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-4285F4?logo=googlechrome&logoColor=white)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
 
-Currently, two official plugins are available:
+> Generate investor-ready pitch decks, scripts, and emails with AI — powered by live data from Crunchbase and AngelList.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- :clipboard: **Full 10-Slide Deck Generation** — Problem, Solution, Market, Product, Traction, Business Model, Team, Competition, Financials, Ask
+- :pencil: **Slide Writer** — AI-generated content for each individual slide with industry-specific insights
+- :email: **Investor Email Generator** — Craft personalized cold outreach emails for investors
+- :microphone: **Pitch Script Generator** — Full speaking scripts with timing cues for each slide
+- :crossed_swords: **Competition Matrix** — Auto-generated competitive landscape analysis
+- :globe_with_meridians: **Crunchbase Integration** — Pull company data, funding history, and market intelligence automatically
+- :angel: **AngelList Integration** — Access investor profiles and startup ecosystem data
+- :new_moon: **Amber/Dark Theme** — Sleek dark UI with amber accents for focused work sessions
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+| Technology | Purpose |
+|---|---|
+| **React 19** | UI framework |
+| **TypeScript** | Type-safe development |
+| **Tailwind CSS 4** | Utility-first styling |
+| **Vite 8** | Build tool & dev server |
+| **Firebase** | Authentication & data storage |
+| **Chrome Extensions API** | Browser integration & data extraction |
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Installation
+
+### From Source
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/pitchdeck-ext.git
+   cd pitchdeck-ext
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Build the extension**
+   ```bash
+   npm run build
+   ```
+
+4. **Load into Chrome**
+   - Open `chrome://extensions/`
+   - Enable **Developer mode** (top right)
+   - Click **Load unpacked**
+   - Select the `dist/` folder
+
+### Development Mode
+
+```bash
+npm run dev
+```
+Starts the Vite development server with hot module replacement.
+
+---
+
+## Usage
+
+### Generating a Full Pitch Deck
+1. Open the **DeckForge** side panel from the Chrome toolbar
+2. Enter your **startup name**, **industry**, and **key metrics**
+3. Click **Generate Deck** to create all 10 slides:
+   - Problem | Solution | Market Size | Product | Traction
+   - Business Model | Team | Competition | Financials | The Ask
+4. Edit any slide individually using the **Slide Writer**
+
+### Using Data Integrations
+1. Navigate to a company page on **Crunchbase** or **AngelList**
+2. DeckForge automatically extracts relevant data (funding rounds, competitors, market size)
+3. Extracted data is used to populate deck slides with real figures
+
+### Generating Investor Emails
+1. Open the **Investor Email** tab
+2. Select the investor profile or enter details manually
+3. Choose email style (formal, conversational, data-driven)
+4. Generate and customize the outreach email
+
+### Creating Pitch Scripts
+1. After generating your deck, navigate to **Pitch Script**
+2. DeckForge creates a full speaking script with **timing cues** per slide
+3. Practice mode shows slide-by-slide scripts with suggested duration
+
+### Competition Matrix
+1. Open the **Competition** section
+2. Enter competitor names or let DeckForge auto-detect from Crunchbase
+3. View a feature-comparison matrix with your startup positioned
+
+---
+
+## Architecture
+
+```
+pitchdeck-ext/
+├── src/
+│   ├── popup/              # Extension popup UI
+│   ├── sidepanel/          # Full deck creation workspace
+│   ├── background/         # Service worker & API orchestration
+│   ├── content/            # Content scripts for Crunchbase/AngelList
+│   ├── shared/             # Shared utilities, types, constants
+│   ├── components/         # Reusable React components
+│   └── utils/              # Helper functions
+├── public/
+│   └── icons/              # Extension icons (16, 48, 128px)
+├── dist/                   # Built extension output
+├── vite.config.ts          # Vite build configuration
+├── tsconfig.json           # TypeScript configuration
+└── manifest.json           # Chrome extension manifest
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Screenshots
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+<p align="center">
+  <img src="public/icons/icon128.png" alt="DeckForge Icon" width="128" height="128" />
+</p>
+
+| Icon Size | Path |
+|---|---|
+| 16x16 | `public/icons/icon16.png` |
+| 48x48 | `public/icons/icon48.png` |
+| 128x128 | `public/icons/icon128.png` |
+
+---
+
+## License
+
+ISC
