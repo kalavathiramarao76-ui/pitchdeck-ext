@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DeckForge - AI Pitch Deck Generator | Chrome Web Store</title>
+<style>
+  :root { --accent: #f59e0b; --accent-light: #fbbf24; --accent-dark: #d97706; --bg: #0f172a; --card: #1e293b; --card-hover: #334155; --text: #f1f5f9; --text-muted: #94a3b8; --border: #334155; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  .hero { padding: 80px 0 60px; text-align: center; background: linear-gradient(180deg, rgba(245,158,11,0.15) 0%, transparent 100%); position: relative; }
+  .hero::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 50% 50%, rgba(245,158,11,0.08) 0%, transparent 50%); }
+  .hero-icon { width: 96px; height: 96px; background: linear-gradient(135deg, var(--accent), var(--accent-dark)); border-radius: 24px; display: flex; align-items: center; justify-content: center; font-size: 48px; margin: 0 auto 24px; box-shadow: 0 20px 60px rgba(245,158,11,0.3); position: relative; }
+  .hero h1 { font-size: 56px; font-weight: 800; margin-bottom: 8px; background: linear-gradient(135deg, #fff, var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero .subtitle { font-size: 20px; color: var(--accent-light); font-weight: 600; margin-bottom: 16px; }
+  .hero .tagline { font-size: 18px; color: var(--text-muted); max-width: 600px; margin: 0 auto 32px; }
+  .badge-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .badge { background: var(--card); border: 1px solid var(--border); padding: 8px 16px; border-radius: 100px; font-size: 13px; color: var(--text-muted); }
+  .badge strong { color: var(--accent-light); }
+  .section { padding: 60px 0; }
+  .section-title { font-size: 32px; font-weight: 700; text-align: center; margin-bottom: 12px; }
+  .section-desc { text-align: center; color: var(--text-muted); margin-bottom: 48px; font-size: 16px; }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+  .feature-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; transition: all 0.3s; }
+  .feature-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(245,158,11,0.15); }
+  .feature-card .icon { font-size: 32px; margin-bottom: 12px; }
+  .feature-card h3 { font-size: 18px; margin-bottom: 8px; }
+  .feature-card p { font-size: 14px; color: var(--text-muted); }
+  .feature-card .tag { display: inline-block; background: rgba(245,158,11,0.15); color: var(--accent-light); padding: 2px 10px; border-radius: 100px; font-size: 12px; margin-top: 8px; }
+  .flow-steps { display: flex; gap: 0; justify-content: center; flex-wrap: wrap; padding: 20px 0; }
+  .flow-step { display: flex; align-items: center; }
+  .flow-step-content { text-align: center; padding: 20px; }
+  .flow-num { width: 48px; height: 48px; background: linear-gradient(135deg, var(--accent), var(--accent-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; margin: 0 auto 12px; color: #0f172a; }
+  .flow-step-content h4 { font-size: 15px; margin-bottom: 4px; }
+  .flow-step-content p { font-size: 13px; color: var(--text-muted); max-width: 140px; margin: 0 auto; }
+  .flow-arrow { color: var(--accent); font-size: 24px; padding: 0 4px; margin-top: -30px; }
+  .mock-section { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+  .mock-window { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+  .mock-titlebar { background: #0f172a; padding: 10px 16px; display: flex; align-items: center; gap: 8px; }
+  .mock-dot { width: 12px; height: 12px; border-radius: 50%; }
+  .mock-dot.r { background: #ef4444; } .mock-dot.y { background: #eab308; } .mock-dot.g { background: #22c55e; }
+  .mock-titlebar span { color: var(--text-muted); font-size: 12px; margin-left: 12px; }
+  .mock-body { padding: 20px; }
+  .mock-label { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; font-weight: 600; }
+  .mock-input { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: var(--text-muted); font-size: 13px; width: 100%; margin-bottom: 12px; }
+  .mock-btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .mock-btn { padding: 6px 14px; border-radius: 8px; font-size: 12px; border: 1px solid var(--border); background: var(--bg); color: var(--text-muted); }
+  .mock-btn.active { background: var(--accent); border-color: var(--accent); color: #0f172a; font-weight: 600; }
+  .mock-generate { background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: #0f172a; border: none; padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; width: 100%; margin-top: 8px; }
+
+  /* Slide cards */
+  .slide-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .slide-card { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 10px; text-align: center; }
+  .slide-card .slide-num { font-size: 10px; color: var(--accent-light); font-weight: 700; }
+  .slide-card .slide-title { font-size: 11px; color: var(--text); margin-top: 2px; }
+
+  .store-section { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 40px; margin-top: 20px; }
+  .store-section h3 { font-size: 20px; margin-bottom: 16px; color: var(--accent-light); }
+  .store-block { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 20px; position: relative; }
+  .store-block h4 { font-size: 14px; color: var(--accent-light); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+  .store-block p, .store-block li { font-size: 14px; color: var(--text-muted); line-height: 1.8; }
+  .store-block ul { list-style: none; padding: 0; }
+  .store-block ul li::before { content: '✓ '; color: var(--accent-light); font-weight: bold; }
+  .copy-hint { position: absolute; top: 12px; right: 12px; font-size: 11px; color: var(--text-muted); background: var(--card); padding: 2px 8px; border-radius: 4px; }
+  .release-item { border-left: 3px solid var(--accent); padding: 16px 20px; margin-bottom: 16px; background: var(--card); border-radius: 0 8px 8px 0; }
+  .release-item .version { font-size: 14px; font-weight: 700; color: var(--accent-light); }
+  .release-item .date { font-size: 12px; color: var(--text-muted); margin-left: 8px; }
+  .release-item ul { margin-top: 8px; padding-left: 16px; }
+  .release-item li { font-size: 13px; color: var(--text-muted); margin-bottom: 4px; }
+  .divider { height: 1px; background: var(--border); margin: 0; }
+  @media (max-width: 768px) { .hero h1 { font-size: 36px; } .mock-section { grid-template-columns: 1fr; } .flow-steps { flex-direction: column; align-items: center; } .flow-arrow { transform: rotate(90deg); } }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-icon">&#127916;</div>
+    <h1>DeckForge</h1>
+    <div class="subtitle">AI Pitch Deck Generator</div>
+    <p class="tagline">Generate investor-ready pitch decks, elevator pitches, investor emails, and competition analysis with AI. Integrates with Crunchbase & AngelList.</p>
+    <div class="badge-row">
+      <div class="badge"><strong>10</strong> Slide Deck</div>
+      <div class="badge"><strong>5 min</strong> Pitch Script</div>
+      <div class="badge"><strong>200</strong> Word Emails</div>
+      <div class="badge"><strong>4+</strong> Competitors</div>
+      <div class="badge">Crunchbase & AngelList</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Powerful Features</h2>
+    <p class="section-desc">Everything founders need to pitch investors with confidence</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="icon">&#128202;</div>
+        <h3>Full 10-Slide Deck</h3>
+        <p>Problem, Solution, Market, Business Model, Traction, GTM Strategy, Competition, Team, Financials, and The Ask. Complete investor-ready deck.</p>
+        <span class="tag">10 Slides</span>
+      </div>
+      <div class="feature-card">
+        <div class="icon">&#128196;</div>
+        <h3>Individual Slide Writer</h3>
+        <p>Need just one slide? Generate any individual slide with deep, focused content tailored to your startup.</p>
+        <span class="tag">Per-Slide</span>
+      </div>
+      <div class="feature-card">
+        <div class="icon">&#9993;&#65039;</div>
+        <h3>Investor Email</h3>
+        <p>Generate concise investor outreach emails under 200 words. Professional, compelling, and ready to send.</p>
+        <span class="tag">&lt;200 Words</span>
+      </div>
+      <div class="feature-card">
+        <div class="icon">&#127908;</div>
+        <h3>Pitch Script</h3>
+        <p>5-minute pitch script with timing guides for each section. Practice with confidence.</p>
+        <span class="tag">5 Minutes</span>
+      </div>
+      <div class="feature-card">
+        <div class="icon">&#9876;&#65039;</div>
+        <h3>Competition Matrix</h3>
+        <p>Analyze 4+ competitors with feature comparison matrix. Show investors how you differentiate.</p>
+        <span class="tag">4+ Competitors</span>
+      </div>
+      <div class="feature-card">
+        <div class="icon">&#127760;</div>
+        <h3>Data Extraction</h3>
+        <p>Pull data directly from Crunchbase and AngelList pages. Auto-fill competitor info, funding data, and market intelligence.</p>
+        <span class="tag">Auto-Extract</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-desc">From idea to investor-ready materials in minutes</p>
+    <div class="flow-steps">
+      <div class="flow-step"><div class="flow-step-content"><div class="flow-num">1</div><h4>Enter Startup</h4><p>Name + description</p></div></div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-step"><div class="flow-step-content"><div class="flow-num">2</div><h4>Select Type</h4><p>Deck, email, script...</p></div></div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-step"><div class="flow-step-content"><div class="flow-num">3</div><h4>AI Generates</h4><p>Content streams in</p></div></div>
+      <div class="flow-arrow">&#8594;</div>
+      <div class="flow-step"><div class="flow-step-content"><div class="flow-num">4</div><h4>Copy</h4><p>Use in presentations</p></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">See It in Action</h2>
+    <p class="section-desc">Generate complete pitch materials from a single description</p>
+    <div class="mock-section">
+      <div>
+        <p class="mock-label">EXTENSION POPUP</p>
+        <div class="mock-window">
+          <div class="mock-titlebar">
+            <div class="mock-dot r"></div><div class="mock-dot y"></div><div class="mock-dot g"></div>
+            <span>DeckForge</span>
+          </div>
+          <div class="mock-body">
+            <div class="mock-input">&#127960;&#65039; Startup Name: TechFlow</div>
+            <div class="mock-input" style="min-height:60px">&#128221; Description: AI-powered workflow automation for enterprise teams. We help companies reduce manual processes by 80% using intelligent document routing and approval workflows...</div>
+            <p class="mock-label">CONTENT TYPE</p>
+            <div class="mock-btn-row">
+              <div class="mock-btn active">&#128202; Full Deck</div>
+              <div class="mock-btn">&#128196; Single Slide</div>
+              <div class="mock-btn">&#9993;&#65039; Investor Email</div>
+            </div>
+            <div class="mock-btn-row">
+              <div class="mock-btn">&#127908; Pitch Script</div>
+              <div class="mock-btn">&#9876;&#65039; Competition</div>
+            </div>
+            <button class="mock-generate">&#9889; Generate Pitch Deck</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="mock-label">10-SLIDE DECK OUTPUT</p>
+        <div class="mock-window">
+          <div class="mock-titlebar">
+            <div class="mock-dot r"></div><div class="mock-dot y"></div><div class="mock-dot g"></div>
+            <span>DeckForge - Generated Deck</span>
+          </div>
+          <div class="mock-body">
+            <div class="slide-grid">
+              <div class="slide-card"><div class="slide-num">SLIDE 1</div><div class="slide-title">&#128308; Problem</div></div>
+              <div class="slide-card"><div class="slide-num">SLIDE 2</div><div class="slide-title">&#128161; Solution</div></div>
+              <div class="slide-card"><div class="slide-num">SLIDE 3</div><div class="slide-title">&#128200; Market Size</div></div>
+              <div class="slide-card"><div class="slide-num">SLIDE 4</div><div class="slide-title">&#128176; Business Model</div></div>
+              <div class="slide-card"><div class="slide-num">SLIDE 5</div><div class="slide-title">&#128640; Traction</div></div>
+              <div class="slide-card"><div class="slide-num">SLIDE 6</div><div class="slide-title">&#127919; GTM Strategy</div></div>
+              <div class="slide-card"><div class="slide-num">SLIDE 7</div><div class="slide-title">&#9876;&#65039; Competition</div></div>
+              <div class="slide-card"><div class="slide-num">SLIDE 8</div><div class="slide-title">&#128101; Team</div></div>
+              <div class="slide-card"><div class="slide-num">SLIDE 9</div><div class="slide-title">&#128181; Financials</div></div>
+              <div class="slide-card"><div class="slide-num">SLIDE 10</div><div class="slide-title">&#128588; The Ask</div></div>
+            </div>
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:12px;margin-top:12px">
+              <div style="font-size:11px;color:var(--accent-light);font-weight:600;margin-bottom:4px">SLIDE 1: PROBLEM</div>
+              <div style="font-size:12px;color:var(--text-muted)">Enterprise teams waste 40% of their time on manual document routing. The average approval process takes 5 days when it should take 5 minutes...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">What's New</h2>
+    <p class="section-desc">Latest updates and improvements</p>
+    <div class="release-item">
+      <span class="version">v1.0.0</span><span class="date">March 2026</span>
+      <ul>
+        <li>Initial release with full 10-slide pitch deck generation</li>
+        <li>Individual slide writer for focused content</li>
+        <li>Investor email generator (under 200 words)</li>
+        <li>5-minute pitch script with timing guides</li>
+        <li>Competition matrix with 4+ competitor analysis</li>
+        <li>Crunchbase and AngelList data extraction</li>
+        <li>One-click copy for all generated content</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+  <div class="container">
+    <div class="store-section">
+      <h3>&#127983; Chrome Web Store Listing (Copy-Paste Ready)</h3>
+      <div class="store-block">
+        <span class="copy-hint">&#128203; Copy</span>
+        <h4>Short Description (132 chars)</h4>
+        <p>Generate investor-ready pitch decks, elevator pitches, investor emails, and competition analysis with AI. Integrates with Crunchbase & AngelList.</p>
+      </div>
+      <div class="store-block">
+        <span class="copy-hint">&#128203; Copy</span>
+        <h4>Detailed Description</h4>
+        <p>DeckForge is an AI-powered pitch deck generator that helps founders create investor-ready materials in minutes. From full 10-slide decks to concise investor emails, DeckForge has everything you need to fundraise with confidence.</p>
+        <br>
+        <p><strong>Full 10-Slide Deck:</strong> Generate a complete pitch deck covering Problem, Solution, Market Size, Business Model, Traction, GTM Strategy, Competition, Team, Financials, and The Ask.</p>
+        <br>
+        <p><strong>Individual Slide Writer:</strong> Need just one section? Generate any slide with deep, focused content.</p>
+        <br>
+        <p><strong>Investor Email:</strong> Concise, compelling outreach emails under 200 words, ready to send to investors.</p>
+        <br>
+        <p><strong>Pitch Script:</strong> 5-minute pitch script with section-by-section timing guides for practice.</p>
+        <br>
+        <p><strong>Competition Matrix:</strong> Analyze 4+ competitors with feature comparison tables showing your differentiation.</p>
+        <br>
+        <p><strong>Data Integration:</strong> Pull startup data directly from Crunchbase and AngelList pages for accurate competitor and market analysis.</p>
+      </div>
+      <div class="store-block">
+        <span class="copy-hint">&#128203; Copy</span>
+        <h4>Feature Bullet Points</h4>
+        <ul>
+          <li>Full 10-slide pitch deck (Problem/Solution/Market/Business Model/Traction/GTM/Competition/Team/Financials/Ask)</li>
+          <li>Individual slide writer for focused content generation</li>
+          <li>Investor email generator (under 200 words)</li>
+          <li>5-minute pitch script with timing guides</li>
+          <li>Competition matrix analyzing 4+ competitors</li>
+          <li>Crunchbase and AngelList data extraction</li>
+          <li>One-click copy for presentations</li>
+          <li>Works on startup research pages</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div style="text-align:center; padding: 40px; color: var(--text-muted); font-size: 13px;">
+  DeckForge &mdash; AI Pitch Deck Generator &mdash; Chrome Extension
+</div>
+
+</body>
+</html>
